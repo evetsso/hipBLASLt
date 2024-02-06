@@ -73,6 +73,10 @@ include(src/CMakeLists.txt)
 add_library(hipblaslt ${hipblaslt_source} ${hipblaslt_headers_public})
 add_library(roc::hipblaslt ALIAS hipblaslt)
 
+# hipBLASLt uses hipBLAS types
+find_package( hipblas REQUIRED CONFIG )
+target_link_libraries(hipblaslt PUBLIC roc::hipblas)
+
 # Target compile definitions
 if(NOT BUILD_CUDA)
 if( BUILD_WITH_TENSILE )
@@ -210,6 +214,7 @@ endif()
 if(NOT BUILD_CUDA)
   rocm_export_targets(TARGETS roc::hipblaslt
                       DEPENDS PACKAGE hip
+                      STATIC_DEPENDS hipblas
                       NAMESPACE roc::)
 else()
   rocm_export_targets(TARGETS roc::hipblaslt

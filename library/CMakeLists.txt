@@ -120,10 +120,7 @@ if( BUILD_WITH_TENSILE )
       target_link_libraries(hipblaslt PRIVATE LLVMObjectYAML )  # match tensile
     endif()
 
-    # to get TensileHost built first, not to link target
-    # as dependency chain can not be created
-    add_dependencies(hipblaslt TensileHost)
-
+    target_link_libraries(hipblaslt PRIVATE TensileHost)
   endif()
 
   target_compile_definitions(hipblaslt PRIVATE ${TENSILE_DEFINES} )
